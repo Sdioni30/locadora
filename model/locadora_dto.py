@@ -3,7 +3,7 @@ from pydantic import BaseModel
 class Jogos(BaseModel):
     nome: str 
     classificacao_idade: int 
-    preço: float
+    preco: float
     codigo_de_barras: int 
     disponivel: bool
 
