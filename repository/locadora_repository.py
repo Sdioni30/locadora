@@ -1,6 +1,6 @@
 from http import HTTPStatus
 from fastapi import HTTPException
-from sqlalchemy import select
+from sqlalchemy import select, desc
 from sqlalchemy.orm import Session
 
 from model.jogos import Jogos as JogosDB
@@ -27,7 +27,9 @@ class LocadoraRepository:
             )
 
     def save_jogo(self, jogo: JogosDTO):
-        novo_jogo = JogosDB (**jogo.model_dump())
+        dados = jogo.model_dump(exclude={"data"})
+        novo_jogo = JogosDB(**dados)
+
         self.session.add(novo_jogo)
         self.session.commit()
         return novo_jogo
@@ -41,3 +43,11 @@ class LocadoraRepository:
         self.session.commit()
         self.session.refresh(jogo_existente)
         return jogo_existente
+    
+    def ultimo_jogo_inserido(self) -> JogosDB:
+        resultado = self.session.scalar(
+            select(JogosDB).order_by(desc(JogosDB.data)).limit(1)
+        )
+        if not resultado:
+            raise HTTPException(status_code=500, detail="Houve algum problema")
+        return resultado

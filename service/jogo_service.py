@@ -17,3 +17,7 @@ def encontrar_por_codigo(codigo_de_barras: int, db: Session):
 def alterar_jogo(codigo_de_barras: int, jogo: JogosDTO, db: Session):
     repo = LocadoraRepository(db)
     return repo.alterar_jogo(codigo_de_barras, jogo)
+
+def mostrar_ultimo_jogo_inserido(db: Session):
+    repo = LocadoraRepository(db)
+    return repo.ultimo_jogo_inserido()

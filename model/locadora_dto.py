@@ -1,4 +1,5 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+from datetime import datetime
 
 class Jogos(BaseModel):
     nome: str 
@@ -6,6 +7,7 @@ class Jogos(BaseModel):
     preco: float
     codigo_de_barras: int 
     disponivel: bool
+    data: datetime = Field(default_factory=datetime.now)
 
 class Funcionario(BaseModel):
     nome: str
